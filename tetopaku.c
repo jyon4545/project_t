@@ -115,6 +115,23 @@ int field[FIELD_HEIGHT][FIELD_WIDTH];
 int screen[FIELD_HEIGHT][FIELD_WIDTH];
 MINO mino;
 
+int MinoIntersectFIeld(){
+    int x,y;
+    
+    for(y=0;y<mino.shape.height;y++){
+        for(x=0;x<mino.shape.width;x++){
+            if(mino.shape.pattern[y][x]){
+                if((mino.y+y<0) || (mino.y + y>= FIELD_HEIGHT)
+                    || (mino.x+x<0) || (mino.x + x>= FIELD_WIDTH)){
+                    return 1;                    
+                    }
+            }
+        }
+    }
+
+    return 0;
+}
+
 void DrowScreen()
 {   
     memcpy(screen ,field,sizeof field);
@@ -129,7 +146,7 @@ void DrowScreen()
     }
 
     system("cls");
-    
+
     for(y=0;y<FIELD_HEIGHT;y++){
         printf("■");
             for(x=0;x<FIELD_WIDTH;x++){
@@ -165,12 +182,13 @@ int main(void){
     randomize();
     Init();
     while(1){
-        if(_kbhit()){
-            switch(_getch()){
+        if(kbhit()){
+            MINO lastMino = mino;
+            switch(getch()){
             case 'w':
                 break;
             case 's':
-                mino.y--;
+                mino.y++;
                 break;
             case 'a':
                 mino.x--;
@@ -180,7 +198,11 @@ int main(void){
                 break;
             }
             
-            Drowscreen();
+            if(MinoIntersectFIeld()){
+                mino = lastMino;
+            }
+            
+            DrowScreen();
 
         }
     }
