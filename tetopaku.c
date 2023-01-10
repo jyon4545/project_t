@@ -128,6 +128,8 @@ void DrowScreen()
         }
     }
 
+    system("cls");
+    
     for(y=0;y<FIELD_HEIGHT;y++){
         printf("■");
             for(x=0;x<FIELD_WIDTH;x++){
@@ -142,17 +144,44 @@ void DrowScreen()
     
 }
 
-void Init(){
-    memset(field,0,sizeof field);
+void Initmino(){
+
     int x;
     randomize();
-    x = rondom(SHAPE_MAX);
+    x = random(SHAPE_MAX);
     mino.shape = shapes[x];
+    mino.x = (FIELD_HEIGHT - mino.shape.width) / 2;
+    mino.y = 0; 
+
+}
+
+void Init(){
+    memset(field,0,sizeof field);
+    Initmino();
     DrowScreen();
 }
 
 int main(void){
     randomize();
     Init();
-    getch();
+    while(1){
+        if(_kbhit()){
+            switch(_getch()){
+            case 'w':
+                break;
+            case 's':
+                mino.y--;
+                break;
+            case 'a':
+                mino.x--;
+                break;
+            case 'd':
+                mino.x++;
+                break;
+            }
+            
+            Drowscreen();
+
+        }
+    }
 }
