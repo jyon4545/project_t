@@ -167,7 +167,7 @@ void Initmino(){
     randomize();
     x = random(SHAPE_MAX);
     mino.shape = shapes[x];
-    mino.x = (FIELD_HEIGHT - mino.shape.width) / 2;
+    mino.x = (FIELD_WIDTH - mino.shape.width) / 2;
     mino.y = 0; 
 
 }
@@ -201,7 +201,7 @@ int main(void){
             if(MinoIntersectFIeld()){
                 mino = lastMino;
             }
-            
+
             DrowScreen();
 
         }
